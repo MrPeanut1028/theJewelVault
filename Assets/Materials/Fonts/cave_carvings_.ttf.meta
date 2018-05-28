@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 63dc0d0850a28414595fa496c0f78762
+timeCreated: 1524733327
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: 'Cave Carvings '
+  fontNames:
+  - 'Cave Carvings '
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
