@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using jewelWheels;
 
@@ -1639,5 +1640,68 @@ public class jewelWheelsScript : MonoBehaviour
             hinge.transform.localRotation = Quaternion.Euler(0.0f, 0.0f, 0.125f) * hinge.transform.localRotation;;
             doorOpen += 1;
         }
-    }
+	}
+
+#pragma warning disable 414
+    private string TwitchHelpMessage = "Turn the wheels with !{0} turn 3 [Turn wheel 3 (range is 1-4)]. Reset the wheels with !{0} reset. Submit with !{0} submit.";
+#pragma warning restore 414
+
+	private IEnumerator ProcessTwitchCommand(string inputCommand)
+	{
+		Match match = Regex.Match(inputCommand, "^turn ([1-4])$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+		if (inputCommand.Equals("reset", StringComparison.InvariantCultureIgnoreCase))
+		{
+			yield return null;
+			yield return new KMSelectable[] {resetButton};
+		}
+		else if (inputCommand.Equals("submit", StringComparison.InvariantCultureIgnoreCase))
+		{
+			yield return null;
+			yield return new KMSelectable[] { submitButton };
+			yield return null;
+			yield return "solve";
+		}
+		else if (match.Success)
+		{
+			var wheel = int.Parse(match.Groups[1].Value) - 1;
+			yield return null;
+			yield return new KMSelectable[] { wheels[wheel]};
+		}
+		else if (inputCommand.Equals("solve"))
+		{
+			StartCoroutine(TwitchHandleForcedSolve());
+		}
+	}
+
+	private IEnumerator TwitchHandleForcedSolve()
+	{
+		yield return null;
+		while (!yellowLights.activeSelf && !moduleSolved)
+		{
+			if (jewelOrientation.All(x => x == targetOrientation))
+			{
+				submitButton.OnInteract();
+			}
+			else if (jewelOrientation[3] != targetOrientation)
+			{
+				assignedWheels[3].OnInteract();
+			}
+			else if (jewelOrientation[2] != targetOrientation)
+			{
+				assignedWheels[2].OnInteract();
+			}
+			else if (jewelOrientation[1] != targetOrientation)
+			{
+				assignedWheels[1].OnInteract();
+			}
+			else if (jewelOrientation[0] != targetOrientation)
+			{
+				assignedWheels[0].OnInteract();
+			}
+
+			while (rotationLock)
+				yield return true;
+		}
+
+	}
 }
