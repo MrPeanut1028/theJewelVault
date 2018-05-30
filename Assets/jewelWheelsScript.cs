@@ -1643,33 +1643,59 @@ public class jewelWheelsScript : MonoBehaviour
 	}
 
 #pragma warning disable 414
-    private string TwitchHelpMessage = "Turn the wheels with !{0} turn 3 [Turn wheel 3 (range is 1-4)]. Reset the wheels with !{0} reset. Submit with !{0} submit.";
+    private string TwitchHelpMessage = "Turn the wheels with !{0} turn 3 [Turn wheel 3 (range is 1-4)]. Turn the wheels more than once with !{0} turn 1 2. [Turn wheel 1 twice. Wheels range from 1-4, Turns range from 1-3]. Reset the wheels with !{0} reset. Submit with !{0} submit.";
 #pragma warning restore 414
 
 	private IEnumerator ProcessTwitchCommand(string inputCommand)
 	{
-		Match match = Regex.Match(inputCommand, "^turn ([1-4])$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
 		if (inputCommand.Equals("reset", StringComparison.InvariantCultureIgnoreCase))
 		{
 			yield return null;
+
+			while (rotationLock)
+				yield return "trycancel your reset command for jewel wheel was cancelled.";
+			
 			yield return new KMSelectable[] {resetButton};
+			yield break;
 		}
-		else if (inputCommand.Equals("submit", StringComparison.InvariantCultureIgnoreCase))
+
+		if (inputCommand.Equals("submit", StringComparison.InvariantCultureIgnoreCase))
 		{
 			yield return null;
+
+			while (rotationLock)
+				yield return "trycancel your solve command for jewel wheel was cancelled.";
+			
 			yield return new KMSelectable[] { submitButton };
 			yield return null;
 			yield return "solve";
+			yield break;
 		}
-		else if (match.Success)
+
+		Match match = Regex.Match(inputCommand, "^turn ([1-4])( [1-3])?$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+		if (match.Success)
 		{
-			var wheel = int.Parse(match.Groups[1].Value) - 1;
 			yield return null;
-			yield return new KMSelectable[] { wheels[wheel]};
-		}
-		else if (inputCommand.Equals("solve"))
-		{
-			StartCoroutine(TwitchHandleForcedSolve());
+
+			var wheel = int.Parse(match.Groups[1].Value) - 1;
+			int times;
+			if (!int.TryParse(match.Groups[2].Value, out times))
+				times = 1;
+
+			while (rotationLock)
+				yield return "trycancel Your wheel turn command for jewel wheel was cancelled with " + times + " turns of wheel " + wheel + " remaining.";
+
+			while (true)
+			{
+				yield return new KMSelectable[] {wheels[wheel]};
+				times -= 1;
+				if (times == 0)
+					break;
+				while (rotationLock)
+					yield return "trycancel Your wheel turn command for jewel wheel was cancelled with " + times + " turns of wheel " + wheel + " remaining.";
+				if (totalRotations % 13 == 0)
+					break;
+			}
 		}
 	}
 
