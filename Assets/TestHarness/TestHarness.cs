@@ -723,7 +723,23 @@ public class TestHarness : MonoBehaviour
                         heldSelectables.Add(selectable);
                     }
                 }
-                else if (currentObject is string)
+                else if (currentObject is KMSelectable[])
+                {
+	                KMSelectable[] selectables = (KMSelectable[])currentObject;
+	                foreach (KMSelectable selectable in selectables)
+	                {
+		                if (selectable == null)
+		                {
+			                yield return new WaitForSeconds(0.1f);
+			                continue;
+		                }
+
+		                DoInteractionStart(selectable);
+		                yield return new WaitForSeconds(0.1f);
+		                DoInteractionEnd(selectable);
+	                }
+                }
+				else if (currentObject is string)
                 {
                     Debug.Log("Twitch handler sent: " + currentObject);
                     yield return currentObject;
