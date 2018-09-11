@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -242,6 +242,13 @@ public class jewelWheelsScript : MonoBehaviour
         }
     }
 
+    char TranslateRune(string rune)
+    {
+        var runeTranslationFrom = "abgdezhqiklmnxoprstufcyw";
+        var runeTranslationTo = "αβγδεζηθικλμνξοπρστυφχψω";
+        return runeTranslationTo[runeTranslationFrom.IndexOf(rune[0])];
+    }
+
     void GetRunes()
     {
         foreach (TextMesh rune in runes1)
@@ -249,25 +256,25 @@ public class jewelWheelsScript : MonoBehaviour
             runeIndex = UnityEngine.Random.Range(0,6);
             rune.text = runeOptions1[runeIndex];
         }
-        Debug.LogFormat("[Jewel Wheels #{0}] The first wheel runes are {1} & {2}.", moduleId, runes1[0].text, runes1[1].text);
+        Debug.LogFormat("[Jewel Wheels #{0}] The first wheel runes are {1} & {2}.", moduleId, TranslateRune(runes1[0].text), TranslateRune(runes1[1].text));
         foreach (TextMesh rune in runes2)
         {
             runeIndex = UnityEngine.Random.Range(0,6);
             rune.text = runeOptions2[runeIndex];
         }
-        Debug.LogFormat("[Jewel Wheels #{0}] The second wheel runes are {1} & {2}.", moduleId, runes2[0].text, runes2[1].text);
+        Debug.LogFormat("[Jewel Wheels #{0}] The second wheel runes are {1} & {2}.", moduleId, TranslateRune(runes2[0].text), TranslateRune(runes2[1].text));
         foreach (TextMesh rune in runes3)
         {
             runeIndex = UnityEngine.Random.Range(0,6);
             rune.text = runeOptions3[runeIndex];
         }
-        Debug.LogFormat("[Jewel Wheels #{0}] The third wheel runes are {1} & {2}.", moduleId, runes3[0].text, runes3[1].text);
+        Debug.LogFormat("[Jewel Wheels #{0}] The third wheel runes are {1} & {2}.", moduleId, TranslateRune(runes3[0].text), TranslateRune(runes3[1].text));
         foreach (TextMesh rune in runes4)
         {
             runeIndex = UnityEngine.Random.Range(0,6);
             rune.text = runeOptions4[runeIndex];
         }
-        Debug.LogFormat("[Jewel Wheels #{0}] The fourth wheel runes are {1} & {2}.", moduleId, runes4[0].text, runes4[1].text);
+        Debug.LogFormat("[Jewel Wheels #{0}] The fourth wheel runes are {1} & {2}.", moduleId, TranslateRune(runes4[0].text), TranslateRune(runes4[1].text));
     }
 
     void GetOuterOrientation()
