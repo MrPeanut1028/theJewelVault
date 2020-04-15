@@ -234,10 +234,7 @@ public class jewelWheelsScript : MonoBehaviour
         }
         else
         {
-            foreach (Texture stone in chosenGemstones)
-            {
-                mostAbundantGemstones.Add(stone);
-            }
+            mostAbundantGemstones.Add(gemstoneOptions[2]); //this is the first possible option, so it works out
             Debug.LogFormat("[Jewel Wheels #{0}] There are two of every gemstone.", moduleId);
         }
     }
