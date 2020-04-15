@@ -207,7 +207,7 @@ public class jewelWheelsScript : MonoBehaviour
             }
             foreach (Texture entry in mostAbundantGemstones)
             {
-                Debug.LogFormat("[Jewel Wheels #{0}] The are four {1} gemstones. These are most abundant.", moduleId, entry.name);
+                Debug.LogFormat("[Jewel Wheels #{0}] There are four {1} gemstones. These are most abundant.", moduleId, entry.name);
             }
         }
         else if (gemstoneCount.Where((x) => x.Equals(3)).Count() == 1)
