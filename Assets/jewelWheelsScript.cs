@@ -207,7 +207,7 @@ public class jewelWheelsScript : MonoBehaviour
             }
             foreach (Texture entry in mostAbundantGemstones)
             {
-                Debug.LogFormat("[Jewel Wheels #{0}] The are four {1} gemstones. These are most abundant.", moduleId, entry.name);
+                Debug.LogFormat("[Jewel Wheels #{0}] There are four {1} gemstones. These are most abundant.", moduleId, entry.name);
             }
         }
         else if (gemstoneCount.Where((x) => x.Equals(3)).Count() == 1)
@@ -234,10 +234,7 @@ public class jewelWheelsScript : MonoBehaviour
         }
         else
         {
-            foreach (Texture stone in chosenGemstones)
-            {
-                mostAbundantGemstones.Add(stone);
-            }
+            mostAbundantGemstones.AddRange(gemstoneOptions); // All of the gems have been chosen, so there's no reason for this list to be different from the overall gemstoneOptions
             Debug.LogFormat("[Jewel Wheels #{0}] There are two of every gemstone.", moduleId);
         }
     }
