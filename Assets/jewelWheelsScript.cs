@@ -234,7 +234,7 @@ public class jewelWheelsScript : MonoBehaviour
         }
         else
         {
-            mostAbundantGemstones.Add(gemstoneOptions[2]); //this is the first possible option, so it works out
+            mostAbundantGemstones.AddRange(gemstoneOptions); // All of the gems have been chosen, so there's no reason for this list to be different from the overall gemstoneOptions
             Debug.LogFormat("[Jewel Wheels #{0}] There are two of every gemstone.", moduleId);
         }
     }
